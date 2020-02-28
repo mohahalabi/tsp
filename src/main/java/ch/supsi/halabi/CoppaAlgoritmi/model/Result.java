@@ -1,4 +1,4 @@
-package ch.supsi.algorithms.tsp.model;
+package ch.supsi.halabi.CoppaAlgoritmi.model;
 
 public class Result {
 
