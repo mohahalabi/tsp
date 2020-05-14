@@ -16,12 +16,13 @@ public class NearestNeighbor implements TSPAlgorithm{
     @Override
     public int[] execute(int [] path) {
         int[] minPath = new int[path.length+ 1];
-        int position = random.nextInt(path.length - 1);
-        boolean[] visitedCities = new boolean[path.length];
+        int position = random.nextInt(path.length - 1); // First city is chosen randomly
+        boolean[] visitedCities = new boolean[path.length]; // boolean array to save if a city has been visited or not
         int min, count, i, minPosition = position;
         minPath[0] = path[position];
-
         visitedCities[position] = true;
+        // search for the nearest city until the tour is completed
+        // start from 1 because we already processed the index 0
         for (count = 1; count <= path.length ; count++) {
             min = Integer.MAX_VALUE;
             i = minPosition;

@@ -2,7 +2,7 @@ package ch.supsi.halabi.CoppaAlgoritmi.algorithms;
 
 import ch.supsi.halabi.CoppaAlgoritmi.model.DistanceMatrix;
 
-public class TwoOpt implements TSPAlgorithm{
+public class TwoOpt implements TSPAlgorithm {
 
     private DistanceMatrix distanceMatrix;
 
@@ -11,8 +11,8 @@ public class TwoOpt implements TSPAlgorithm{
     }
 
     @Override
-    public int[] execute(int[] path ) {
-        int bestGain, gain, maxI = 0, maxJ = 0;
+    public int[] execute(int[] path) {
+        int bestGain, gain, bestI = 0, bestJ = 0;
         int size = path.length;
         do {
             bestGain = Integer.MAX_VALUE;
@@ -21,12 +21,12 @@ public class TwoOpt implements TSPAlgorithm{
                     gain = gain(path[i], path[i + 1], path[j], path[j + 1]);
                     if (bestGain > gain) {
                         bestGain = gain;
-                        maxI = i;
-                        maxJ = j;
+                        bestI = i;
+                        bestJ = j;
                     }
                 }
             }
-            executeSwap(path, maxI, maxJ);
+            executeSwap(path, bestI, bestJ); // we execute the swap until best gain is negative, thus there is no gain anymore
         } while (bestGain < 0);
         return path;
     }
@@ -39,8 +39,8 @@ public class TwoOpt implements TSPAlgorithm{
         return (ac + bd) - (ab + cd);
     }
 
-    private void executeSwap(int[] path, int source, int dest) {
-        for (int i = source + 1, j = dest; i < j; i++, j--) {
+    private void executeSwap(int[] path, int source, int destination) {
+        for (int i = source + 1, j = destination; i < j; i++, j--) {
             int tmp = path[i];
             path[i] = path[j];
             path[j] = tmp;

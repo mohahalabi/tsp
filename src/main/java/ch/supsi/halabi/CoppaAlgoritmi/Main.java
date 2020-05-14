@@ -39,21 +39,21 @@ public class Main {
             random.setSeed(seed);
 
             TSPAlgorithm nearestNeighbor = new NearestNeighbor(distanceMatrix, random);
-            int[] pathNN = nearestNeighbor.execute(path);
-            int distanceNN = distance(distanceMatrix, pathNN);
+            int[] nnTour = nearestNeighbor.execute(path);
+            int distanceNN = distance(distanceMatrix, nnTour);
             Result resultNN = new Result("Nearest Neighbor", distanceNN);
 
             TSPAlgorithm twoOpt = new TwoOpt(distanceMatrix);
-            int[] pathTowOpt = twoOpt.execute(pathNN);
-            int distanceTowOpt = distance(distanceMatrix, pathTowOpt);
-            Result resultTowOpt = new Result("TowOpt", distanceTowOpt);
+            int[] twoOptTour = twoOpt.execute(nnTour);
+            int distanceTowOpt = distance(distanceMatrix, twoOptTour);
+            Result resultTwoOpt = new Result("TwoOpt", distanceTowOpt);
 
             TSPAlgorithm simulatedAnnealing = new SimulatedAnnealing(distanceMatrix, startTime, random);
-            int[] finalTour = simulatedAnnealing.execute(pathTowOpt);
+            int[] finalTour = simulatedAnnealing.execute(twoOptTour);
             int distanceSA = distance(distanceMatrix, finalTour);
             Result resultSA = new Result("Simulated annealing", distanceSA);
 
-            printResults(fileName, reader.getBestKnownInt(), resultNN, resultTowOpt, resultSA);
+            printResults(fileName, reader.getBestKnownInt(), resultNN, resultTwoOpt, resultSA);
 
             TSPFileWriter writer = new TSPFileWriter(fileName, distanceSA, reader.getDimension());
             writer.write(fileToWrite, finalTour);

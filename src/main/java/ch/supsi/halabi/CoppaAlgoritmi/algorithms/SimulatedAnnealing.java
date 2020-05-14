@@ -20,22 +20,23 @@ public class SimulatedAnnealing implements TSPAlgorithm {
     @Override
     public int[] execute(int[] tour) {
         double temperature = 100, constant = 0.95;
-        int[] next, candidate, current = tour.clone();
-        int[] best = current.clone();
+        int[] next, candidate;
+        int [] current = tour.clone();
+        int[] best = tour.clone();
         long end;
         int currentDistance, candidateDistance, bestDistance;
         TSPAlgorithm twoOpt = new TwoOpt(distanceMatrix);
         TSPAlgorithm doubleBridge = new DoubleBridge(random);
-        do {
+        while (temperature > 0.0001){
             for (int i = 0; i < 100; i++) {
                 next = doubleBridge.execute(current).clone();
                 candidate = twoOpt.execute(next).clone();
                 currentDistance = Main.distance(distanceMatrix, current);
                 candidateDistance = Main.distance(distanceMatrix, candidate);
-                if (candidateDistance < currentDistance) {
+                if (currentDistance > candidateDistance ) {
                     current = candidate.clone();
                     bestDistance = Main.distance(distanceMatrix, best);
-                    if (candidateDistance < bestDistance) {
+                    if (bestDistance > candidateDistance ) {
                         best = candidate.clone();
                     }
                 } else if (random.nextDouble() < Math.exp(-(candidateDistance - currentDistance) / temperature)) {
@@ -46,7 +47,7 @@ public class SimulatedAnnealing implements TSPAlgorithm {
                     return best;
             }
             temperature *= constant;
-        } while (temperature > 0.0001);
+        }
 
         return best;
     }
